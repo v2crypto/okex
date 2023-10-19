@@ -1,4 +1,4 @@
-module github.com/amir-the-h/okex
+module github.com/v2crypto/okex
 
 go 1.17
 
