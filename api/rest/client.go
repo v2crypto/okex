@@ -7,12 +7,13 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/v2crypto/okex"
-	requests "github.com/v2crypto/okex/requests/rest/public"
-	responses "github.com/v2crypto/okex/responses/public_data"
 	"net/http"
 	"strings"
 	"time"
+
+	"github.com/v2crypto/okex"
+	requests "github.com/v2crypto/okex/requests/rest/public"
+	responses "github.com/v2crypto/okex/responses/public_data"
 )
 
 // ClientRest is the rest api client
@@ -33,14 +34,14 @@ type ClientRest struct {
 }
 
 // NewClient returns a pointer to a fresh ClientRest
-func NewClient(apiKey, secretKey, passphrase string, baseURL okex.BaseURL, destination okex.Destination) *ClientRest {
+func NewClient(apiKey, secretKey, passphrase string, baseURL okex.BaseURL, destination okex.Destination, httpClient *http.Client) *ClientRest {
 	c := &ClientRest{
 		apiKey:      apiKey,
 		secretKey:   []byte(secretKey),
 		passphrase:  passphrase,
 		baseURL:     baseURL,
 		destination: destination,
-		client:      http.DefaultClient,
+		client:      httpClient,
 	}
 	c.Account = NewAccount(c)
 	c.SubAccount = NewSubAccount(c)

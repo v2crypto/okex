@@ -2,6 +2,8 @@ package api
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/v2crypto/okex"
 	"github.com/v2crypto/okex/api/rest"
 	"github.com/v2crypto/okex/api/ws"
@@ -30,7 +32,7 @@ func NewClient(ctx context.Context, apiKey, secretKey, passphrase string, destin
 		wsPriURL = okex.DemoPrivateWsURL
 	}
 
-	r := rest.NewClient(apiKey, secretKey, passphrase, restURL, destination)
+	r := rest.NewClient(apiKey, secretKey, passphrase, restURL, destination, http.DefaultClient)
 	c := ws.NewClient(ctx, apiKey, secretKey, passphrase, map[bool]okex.BaseURL{true: wsPriURL, false: wsPubURL})
 
 	return &Client{r, c, ctx}, nil
