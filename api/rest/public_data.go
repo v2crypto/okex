@@ -2,10 +2,11 @@ package rest
 
 import (
 	"encoding/json"
+	"net/http"
+
 	"github.com/v2crypto/okex"
 	requests "github.com/v2crypto/okex/requests/rest/public"
 	responses "github.com/v2crypto/okex/responses/public_data"
-	"net/http"
 )
 
 // PublicData
@@ -229,6 +230,38 @@ func (c *PublicData) GetInterestRateAndLoanQuota() (response responses.GetIntere
 // https://www.okex.com/docs-v5/en/#rest-api-public-data-get-underlying
 func (c *PublicData) GetUnderlying(req requests.GetUnderlying) (response responses.GetUnderlying, err error) {
 	p := "/api/v5/public/underlying"
+	m := okex.S2M(req)
+	res, err := c.client.Do(http.MethodGet, p, false, m)
+	if err != nil {
+		return
+	}
+	defer res.Body.Close()
+	d := json.NewDecoder(res.Body)
+	err = d.Decode(&response)
+	return
+}
+
+// GetFundingRate
+//
+// https://www.okex.com/docs-v5/en/#rest-api-public-data-get-funding-rate
+func (c *PublicData) GetFundingRate(req requests.GetFundingRate) (response responses.GetFundingRate, err error) {
+	p := "/api/v5/public/funding-rate"
+	m := okex.S2M(req)
+	res, err := c.client.Do(http.MethodGet, p, false, m)
+	if err != nil {
+		return
+	}
+	defer res.Body.Close()
+	d := json.NewDecoder(res.Body)
+	err = d.Decode(&response)
+	return
+}
+
+// GetFundingRateHistory
+//
+// https://www.okex.com/docs-v5/en/#rest-api-public-data-get-funding-rate
+func (c *PublicData) GetFundingRateHistory(req requests.GetFundingRateHistory) (response responses.GetFundingRateHistory, err error) {
+	p := "/api/v5/public/funding-rate-history"
 	m := okex.S2M(req)
 	res, err := c.client.Do(http.MethodGet, p, false, m)
 	if err != nil {

@@ -23,6 +23,12 @@ type (
 	GetFundingRate struct {
 		InstID string `json:"instId"`
 	}
+	GetFundingRateHistory struct {
+		InstID string `json:"instId"`
+		After  int64  `json:"after,omitempty,string"`
+		Before int64  `json:"before,omitempty,string"`
+		Limit  int64  `json:"limit,omitempty,string"`
+	}
 	GetLimitPrice struct {
 		InstID string `json:"instId"`
 	}
